@@ -27,6 +27,9 @@ export function Navbar() {
     isConnected,
     networkName,
     refreshBalances,
+    ethBalance,
+    dETHBalance,
+    sETHBalance,
   } = useWeb3()
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
@@ -181,7 +184,33 @@ export function Navbar() {
                           {account ? `${account.substring(0, 6)}...${account.substring(account.length - 4)}` : ""}
                         </div>
 
-                      
+                        {/* Token Balances Display */}
+                        <div className="space-y-2 mt-2">
+                          <div className="flex items-center justify-between text-xs font-medium text-slate-500">
+                            <span>Token Balances</span>
+                            <button
+                              onClick={handleRefresh}
+                              disabled={isRefreshing}
+                              className="text-xs text-lightblue-600 hover:underline flex items-center gap-1"
+                            >
+                              <RefreshCw className={`h-3 w-3 ${isRefreshing ? "animate-spin" : ""}`} /> Refresh
+                            </button>
+                          </div>
+                          <div className="grid grid-cols-3 gap-2">
+                            <div className="bg-blue-50 border border-blue-100 p-2 rounded-lg text-center">
+                              <span className="text-[10px] text-blue-600 font-semibold block">ETH</span>
+                              <span className="text-xs font-bold text-slate-800">{formatBalance(ethBalance)}</span>
+                            </div>
+                            <div className="bg-indigo-50 border border-indigo-100 p-2 rounded-lg text-center">
+                              <span className="text-[10px] text-indigo-600 font-semibold block">dETH</span>
+                              <span className="text-xs font-bold text-slate-800">{formatBalance(dETHBalance)}</span>
+                            </div>
+                            <div className="bg-purple-50 border border-purple-100 p-2 rounded-lg text-center">
+                              <span className="text-[10px] text-purple-600 font-semibold block">sETH</span>
+                              <span className="text-xs font-bold text-slate-800">{formatBalance(sETHBalance)}</span>
+                            </div>
+                          </div>
+                        </div>
                       </div>
 
                       <DropdownMenuSeparator />
@@ -221,9 +250,23 @@ export function Navbar() {
                       </Badge>
                     </Button>
                   </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuLabel>Wallet Balances</DropdownMenuLabel>
+                  <DropdownMenuContent align="end" className="w-64 p-3">
+                    <DropdownMenuLabel className="px-0 pt-0">Wallet Balances</DropdownMenuLabel>
                     <DropdownMenuSeparator />
+                    <div className="py-2 space-y-2">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-slate-500 font-medium">ETH</span>
+                        <span className="font-bold">{formatBalance(ethBalance)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-slate-500 font-medium">dETH</span>
+                        <span className="font-bold">{formatBalance(dETHBalance)}</span>
+                      </div>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-slate-500 font-medium">sETH</span>
+                        <span className="font-bold">{formatBalance(sETHBalance)}</span>
+                      </div>
+                    </div>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem onClick={disconnectWallet} className="cursor-pointer text-red-500">
                       <LogOut className="mr-2 h-4 w-4" />

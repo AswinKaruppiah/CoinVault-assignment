@@ -34,6 +34,9 @@ backend/.env
 .DS_Store
 Thumbs.db
 
+# TypeScript build cache
+*.tsbuildinfo
+
 # Smart contract compilation artifacts
 /artifacts
 /cache
